@@ -36,6 +36,7 @@ paths:
         - Collection Search
       parameters:
         - $ref: '#/components/parameters/bbox'
+        - $ref: '#/components/parameters/intersects'
         - $ref: '#/components/parameters/datetime'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/ids'
