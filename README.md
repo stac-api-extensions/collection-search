@@ -2,12 +2,15 @@
 
 - **OpenAPI specification:** [openapi.yaml](openapi.yaml) (todo)
 - **Conformance URIs:**
-  - <https://api.stacspec.org/v1.0.0-rc.1/collection-search>
   - <https://api.stacspec.org/v1.0.0-rc.1/core>
+  - <https://api.stacspec.org/v1.0.0-rc.1/collection-search>
+  - <http://www.opengis.net/spec/ogcapi-common-2/1.0/req/simple-query>
 - **[Maturity Classification](../README.md#maturity-classification):** Proposal
 - **Dependencies**:
-- [STAC API - Collections](https://github.com/radiantearth/stac-api-spec/tree/main/ogcapi-features)
-- [STAC API - Core](https://github.com/radiantearth/stac-api-spec/blob/main/core)
+  - [STAC API - Core](https://github.com/radiantearth/stac-api-spec/blob/main/core)
+  - [STAC API - Collections](https://github.com/radiantearth/stac-api-spec/tree/main/ogcapi-features)
+  - [OGC API - Common - Part 2: Geospatial Data](https://portal.ogc.org/files/99149)
+  - [OGC API - Records - Part 2: Collections](https://github.com/opengeospatial/ogcapi-records/tree/master/extensions/collections)
 
 A search endpoint provides the ability to query
 STAC [Collections](https://github.com/radiantearth/stac-spec/blob/master/collection-spec/README.md)
@@ -15,83 +18,78 @@ objects across collections.
 It retrieves a group of Collection objects that match the provided parameters and provides them as
 the `GET /collections` endpoint does.
 
-The Item Search endpoint intentionally defines only a limited group of operations. It is expected that
-most behavior will be defined in [Extensions](#extensions). These extensions can be composed by an implementer to
-cover only the set of functionality the implementer requires.
+The Collection Search endpoint by default doesn't provide any query parameters to filter and all
+additional behavior will be defined in [Extensions](#extensions). These extensions can be composed
+by an implementer to cover only the set of functionality the implementer requires.
 
-Implementing `GET /search/collections` is **required**, `POST /search/collections` is optional, but recommended.
+This extension is based on *[OGC API - Common - Part 2: Geospatial Data](https://portal.ogc.org/files/99149#rc-simple-query-section)* and *[OGC API - Records - Part 2: Collections](https://github.com/opengeospatial/ogcapi-records/tree/master/extensions/collections)*
+and selectively implements a subset of their "requirements classes".
 
-## Link Relations
+All functionality is only defined for `GET /collections` in *OGC API - Records - Part 2: Collections*.
 
-This conformance class also requires implementation of the link relations in the STAC API - Core conformance class.
+*Note:* STAC may add behavior for `POST /collections` in the future, but due to a potential conflict
+with the Transaction Extension, specific rules for content negotiation might be required.
 
-The following Link relations must exist in the Landing Page (root).
+## Pagination
 
-| **rel**             | **href**              | **Description**             |
-| ------------------- | --------------------- | --------------------------- |
-| `collection-search` | `/search/collections` | URI for the Search endpoint |
-
-This `collection-search` link relation must have a `type` of `application/json`. If no `method` attribute is
-specified, it is assumed to represent a GET request. If the server supports both GET and POST requests, two links should be included, one with a `method` of `GET` one with a `method` of `POST`.
-
-Other links with relation `collection-search` may be included that advertise other content types the server may respond
-with, but these other types are not part of the STAC API requirements.
+Pagination for collections works exactly as it defined for Collections in general.
+See [Collection Pagination](https://github.com/radiantearth/stac-api-spec/blob/main/ogcapi-features/README.md#collection-pagination)
+for details.
 
 ## Query Parameters and Fields
 
 ### Basics
 
-A basic set of query parameters can be implemented based on
-[OGC API - Commons - Part 2](https://portal.ogc.org/files/99149#rc-simple-query-section):
+A basic set of query parameters MUST be implemented.
+These are aligned with the corresponding parameters in STAC API - Features:
 - `bbox`
 - `datetime`
 - `limit`
 
-Conformance classes:
-- `http://www.opengis.net/spec/ogcapi-common-2/1.0/req/simple-query`
-- `https://api.stacspec.org/v1.0.0-rc.1/collection-search#simple`
+Requirement class in *OGC API - Common - Part 2: Geospatial Data*: [Simple Query](https://portal.ogc.org/files/99149#rc-simple-query-section)
 
-These are basically the same as defined by OGC API - Features for Items.
+### Extensions
 
-### Query (STACQL)
+#### Query (STACQL)
 
 The query extension for STACQL support can be implemented, too. It works as it does for Items.
 See <https://github.com/stac-api-extensions/query> for details.
 
-Conformance class: `https://api.stacspec.org/v1.0.0-rc.1/collection-search#query`
+- Requirement class in *OGC API - Records - Part 2: Collections*: n/a
+- Conformance class: `https://api.stacspec.org/v1.0.0-rc.1/collection-search#query`
 
-### Filter (CQL)
+#### Filter (CQL)
 
 The filter extension for CQL support can be implemented, too. It works as it does for Items.
 See <https://github.com/stac-api-extensions/filter> for details.
 
-Conformance class: `https://api.stacspec.org/v1.0.0-rc.1/collection-search#filter`
+- Requirement class in *OGC API - Records - Part 2: Collections*: CQL Filter
+- Conformance classes:
+  - `https://api.stacspec.org/v1.0.0-rc.1/collection-search#filter`
+  - `http://www.opengis.net/spec/ogcapi-records-1/1.0/req/cql-filter`
 
-### Pagination
-
-Pagination works for Collections exactly as it works for Items.
-
-Conformance class: None
-
-### Sorting
+#### Sorting
 
 The sort extension can be implemented, too. It works as it does for Items.
 See <https://github.com/stac-api-extensions/sort> for details.
 
-Conformance class: `https://api.stacspec.org/v1.0.0-rc.1/collection-search#sort`
+- Requirement class in *OGC API - Records - Part 2: Collections*: Sorting
+- Conformance classes:
+  - `https://api.stacspec.org/v1.0.0-rc.1/collection-search#sort`
+  - `http://www.opengis.net/spec/ogcapi-records-1/1.0/req/sorting`
 
-### Fields
+#### Fields
 
 The fields extension can be implemented, too. It works as it does for Items.
 See <https://github.com/stac-api-extensions/fields> for details.
 
-Conformance class: `https://api.stacspec.org/v1.0.0-rc.1/collection-search#fields`
+- Requirement class in *OGC API - Records - Part 2: Collections*: n/a
+- Conformance class: `https://api.stacspec.org/v1.0.0-rc.1/collection-search#fields`
 
-### Context
+#### Context
 
 The context extension can be implemented, too. It works as it does for Items.
 See <https://github.com/stac-api-extensions/context> for details.
 
-Conformance class: `https://api.stacspec.org/v1.0.0-rc.1/collection-search#context`
-
-These extensions provide additional functionality that enhances Item Search.
+- Requirement class in *OGC API - Records - Part 2: Collections*: n/a
+- Conformance class: `https://api.stacspec.org/v1.0.0-rc.1/collection-search#context`
