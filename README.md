@@ -1,16 +1,19 @@
 # STAC API - Collection Search
 
+- **Title:** Collection Search
 - **OpenAPI specification:** [openapi.yaml](openapi.yaml) (todo)
-- **Conformance URIs:**
+- **Conformance Classes:**
   - <https://api.stacspec.org/v1.0.0-rc.1/core>
   - <https://api.stacspec.org/v1.0.0-rc.1/collection-search>
   - <http://www.opengis.net/spec/ogcapi-common-2/1.0/req/simple-query>
-- **[Maturity Classification](../README.md#maturity-classification):** Proposal
-- **Dependencies**:
+- **Scope:** STAC API - Core
+- **[Extension Maturity Classification](https://github.com/radiantearth/stac-api-spec/tree/main/README.md#maturity-classification):** Proposal
+- **Dependencies:**
   - [STAC API - Core](https://github.com/radiantearth/stac-api-spec/blob/main/core)
   - [STAC API - Collections](https://github.com/radiantearth/stac-api-spec/tree/main/ogcapi-features)
   - [OGC API - Common - Part 2: Geospatial Data](https://portal.ogc.org/files/99149)
   - [OGC API - Records - Part 2: Collections](https://github.com/opengeospatial/ogcapi-records/tree/master/extensions/collections)
+- **Owner**: @m-mohr
 
 A search endpoint provides the ability to query
 STAC [Collections](https://github.com/radiantearth/stac-spec/blob/master/collection-spec/README.md)
