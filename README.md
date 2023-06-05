@@ -66,8 +66,9 @@ These are aligned with the corresponding parameters in STAC API - Features and O
 
 A free-text search parameter `q` based on OGC API - Records can be added.
 See <https://docs.ogc.org/DRAFTS/20-004.html#_parameter_q> for details.
-It is case-insensitive and matches the string given strictly.
-The specific set of text keys/fields/properties of a Collection to which the parameter is applied is left to the discretion of the implementation, but a recommendation is to at least consider `title`, `description` and `keywords`.
+The specific set of text fields of a Collection to which the parameter is applied is left to the discretion of the implementation, but a recommendation is to at least consider `title`, `description` and `keywords`.
+The search works case-insensitive.
+Any of the search terms (i.e. all words separated by a space) must be present in the set of text fields (OR).
 
 #### Filter (CQL)
 
