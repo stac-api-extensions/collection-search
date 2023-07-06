@@ -60,7 +60,7 @@ These are aligned with the corresponding parameters in STAC API - Features and O
 
 ### Extensions
 
-#### Free text search
+#### Free-text search
 
 - Conformance class: `https://api.stacspec.org/v1.0.0-rc.1/collection-search#free-text`
 
