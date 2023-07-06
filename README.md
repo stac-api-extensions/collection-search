@@ -67,8 +67,8 @@ These are aligned with the corresponding parameters in STAC API - Features and O
 A free-text search parameter `q` based on OGC API - Records can be added.
 See <https://docs.ogc.org/DRAFTS/20-004.html#_parameter_q> for details.
 The specific set of text fields of a Collection to which the parameter is applied is left to the discretion of the implementation, but a recommendation is to at least consider `title`, `description` and `keywords`.
-The search works case-insensitive.
-Any of the search terms (i.e. all words separated by a space) must be present in the set of text fields (OR).
+
+The search works case-insensitive. Any of the search terms must be present in the set of text fields. The operator is OR and all search terms must be delimited by a comma. Spaces have no special meaning. So if you want to search for "Earth Observation" or "EO", your query parameter should be as follows: `q=EO,Earth Observation`.
 
 #### Filter (CQL)
 
