@@ -13,7 +13,7 @@
     - Sort: <https://api.stacspec.org/v1.0.0-rc.1/collection-search#sort>
     - Fields: <https://api.stacspec.org/v1.0.0-rc.1/collection-search#fields>
 - **Scope:** STAC API - Core
-- **[Extension Maturity Classification](https://github.com/radiantearth/stac-api-spec/tree/main/README.md#maturity-classification):** Proposal
+- **[Extension Maturity Classification](https://github.com/radiantearth/stac-api-spec/tree/main/README.md#maturity-classification):** Pilot
 - **Dependencies:**
   - [STAC API - Core](https://github.com/radiantearth/stac-api-spec/blob/main/core)
   - [STAC API - Collections](https://github.com/radiantearth/stac-api-spec/tree/main/ogcapi-features)
