@@ -64,8 +64,8 @@ These are aligned with the corresponding parameters in STAC API - Features and O
 
 - Conformance class: `https://api.stacspec.org/v1.0.0-rc.1/collection-search#free-text`
 
-A basic free-text search parameter `q` based on OGC API - Records can be added.
-See <https://docs.ogc.org/DRAFTS/20-004.html#_parameter_q> for details.
+A basic free-text search parameter `q` based on [OGC API - Records](https://docs.ogc.org/DRAFTS/20-004.html#_parameter_q) and the
+[STAC API - Free Text Search Extension](https://github.com/stac-api-extensions/freetext-search) can be added.
 
 The specific set of text fields of a Collection to which the parameter is applied is left to the discretion of the implementation, but a recommendation is to at least consider `title`, `description` and `keywords`.
 
