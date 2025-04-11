@@ -3,7 +3,7 @@
 - **Title:** Collection Search
 - **OpenAPI specification:** [openapi.yaml](openapi.yaml) (todo)
 - **Conformance Classes:**
-  - <https://api.stacspec.org/v1.0.0-rc.1/core> (required)
+  - <https://api.stacspec.org/v1.0.0/core> (required)
   - <https://api.stacspec.org/v1.0.0-rc.1/collection-search> (required)
   - <http://www.opengis.net/spec/ogcapi-common-2/1.0/conf/simple-query> (required)
   - Extensions (all optional):
