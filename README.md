@@ -10,7 +10,7 @@
     - Free-text search: <https://api.stacspec.org/v1.0.0-rc.1/collection-search#free-text>
     - Query/STACQL: <https://api.stacspec.org/v1.0.0-rc.1/collection-search#query>
     - Filter/CQL2: <https://api.stacspec.org/v1.0.0-rc.1/collection-search#filter>
-    - Sort: <https://api.stacspec.org/v1.0.0-rc.1/collection-search#sort>
+    - Sort: <https://api.stacspec.org/v1.1.0/collection-search#sort>
     - Fields: <https://api.stacspec.org/v1.0.0-rc.1/collection-search#fields>
 - **Scope:** STAC API - Core
 - **[Extension Maturity Classification](https://github.com/radiantearth/stac-api-spec/tree/main/README.md#maturity-classification):** Pilot
@@ -94,7 +94,7 @@ See <https://github.com/stac-api-extensions/query> for details.
 
 #### Sorting
 
-- Conformance classes: `https://api.stacspec.org/v1.0.0-rc.1/collection-search#sort`
+- Conformance classes: `https://api.stacspec.org/v1.1.0/collection-search#sort`
 - Requirement class in *OGC API - Records*: [Local Resource Catalogue, Sorting](https://docs.ogc.org/DRAFTS/20-004.html#clause-local-resources-catalogue_sorting)
 
 The sort extension can be implemented, too. It works as it does for Items.
