@@ -2,102 +2,145 @@
 
 - **Title:** Collection Search
 - **Conformance Classes:**
-  - <https://api.stacspec.org/v1.0.0/core> (required)
-  - <https://api.stacspec.org/v1.0.0-rc.1/collection-search> (required)
-  - <http://www.opengis.net/spec/ogcapi-common-2/1.0/conf/simple-query> (required)
-  - Extensions (all optional):
+  - **REQUIRED conformance classes:**
+    - <https://api.stacspec.org/v1.0.0/core>
+    - <https://api.stacspec.org/v1.0.0/collection-search>
+    - <http://www.opengis.net/spec/ogcapi-common-2/1.0/conf/simple-query>
+  - **OPTIONAL conformance classes**:
     - Free-text search: <https://api.stacspec.org/v1.0.0-rc.1/collection-search#free-text>
-    - Query/STACQL: <https://api.stacspec.org/v1.0.0-rc.1/collection-search#query>
-    - Filter/CQL2: <https://api.stacspec.org/v1.0.0-rc.1/collection-search#filter>
+    - Filter/CQL2: <https://api.stacspec.org/v1.0.0-rc.4/collection-search#filter>
     - Sort: <https://api.stacspec.org/v1.1.0/collection-search#sort>
-    - Fields: <https://api.stacspec.org/v1.0.0-rc.1/collection-search#fields>
+    - Fields: <https://api.stacspec.org/v1.0.0/collection-search#fields>
 - **Scope:** STAC API - Core
-- **[Extension Maturity Classification](https://github.com/radiantearth/stac-api-spec/tree/main/README.md#maturity-classification):** Pilot
+- **[Extension Maturity Classification](https://github.com/radiantearth/stac-api-spec/tree/main/README.md#maturity-classification):** Candidate
 - **Dependencies:**
   - [STAC API - Core](https://github.com/radiantearth/stac-api-spec/blob/main/core)
   - [STAC API - Collections](https://github.com/radiantearth/stac-api-spec/tree/main/ogcapi-features)
   - [OGC API - Common - Part 2: Geospatial Data](https://portal.ogc.org/files/99149)
-  - [OGC API - Records - Part 1: Local Resource Catalogue](https://docs.ogc.org/DRAFTS/20-004.html#clause-local-resources-catalogue)
+  - [OGC API - Records - Part 1: Local Resource Catalogue](https://docs.ogc.org/is/20-004r1/20-004r1.html#clause-local-resources-catalog)
 - **Owner**: @m-mohr
 
-A search endpoint provides the ability to query
-STAC [Collections](https://github.com/radiantearth/stac-spec/blob/master/collection-spec/README.md)
-objects across collections.
-It retrieves a group of Collection objects that match the provided parameters and provides them through
-the `GET /collections` endpoint as well.
+This extension extends the STAC API `GET /collections` endpoint to support advanced search capabilities
+for STAC [Collections](https://github.com/radiantearth/stac-spec/blob/master/collection-spec/README.md).
 
-The Collection Search endpoint by default doesn't provide any query parameters to filter and all
-additional behavior will be defined in [Extensions](#extensions). These extensions can be composed
-by an implementer to cover only the set of functionality the implementer requires.
+The [`GET /collections` endpoint](https://api.stacspec.org/v1.0.0/collections/#tag/Collections/operation/getCollections)
+doesn't provide any query parameters by default, so a beasic set of query parameters is defined in [Basics](#basics)
+for some rudimentary search functionality that is similar to the default items endpoint in STAC API.
+Additional, more advanced behavior is defined as [optional conformance classes](#optional-conformance-classes).
+These extensions can be composed by an implementer to cover only the set of functionality the implementer requires.
+
+## Relation to OGC APIs
 
 This extension is based on *[OGC API - Common - Part 2: Geospatial Data](https://portal.ogc.org/files/99149#rc-simple-query-section)*
-and aligned to *[OGC API - Records - Part 1: Local Resource Catalogue](https://docs.ogc.org/DRAFTS/20-004.html#clause-local-resources-catalogue)*
+and aligned to *[OGC API - Records - Part 1: Local Resource Catalogue](https://docs.ogc.org/is/20-004r1/20-004r1.html#clause-local-resources-catalog)*
 and selectively implements a subset of their "requirements classes".
 
 All functionality in *OGC API - Records - Part 1: Local Resource Catalogue* is only defined for the `GET` method (i.e. `GET /collections`).
-*Note:* STAC may add behavior for `POST /collections` in the future, but due to a potential conflict
-with the Transaction Extension, specific rules for content negotiation might be required.
+
+> [!NOTE]  
+> STAC may add behavior for `POST /collections` in the future, but due to a potential conflict
+> with the Transaction Extension, specific rules for content negotiation might be required.
+
+## Versioning
+
+The version of this extension only defines the version of the <https://api.stacspec.org/v1.0.0/collection-search>
+conformance class. All other conformance classes define their own version numbers, e.g.
+Sort is already available in v1.1.0 and as such the conformance class is
+<https://api.stacspec.org/v1.1.0/collection-search#sort>.
 
 ## Pagination
 
-Pagination for collections works exactly as it defined for Collections in general.
-See [Collection Pagination](https://github.com/radiantearth/stac-api-spec/blob/main/ogcapi-features/README.md#collection-pagination)
-for details.
+Pagination for collections works as defined in STAC in general, through links with relation types `first`, `previous` (or `prev`), `next`, and `last`.
+As such, this is also how it works for the `GET /collections` endpoint. For details, please see the chapter
+[Collection Pagination](https://github.com/radiantearth/stac-api-spec/blob/main/ogcapi-features/README.md#collection-pagination).
 
-## Query Parameters and Fields
+## Basics
 
-### Basics
-
-- Conformance class: `http://www.opengis.net/spec/ogcapi-common-2/1.0/conf/simple-query`
+- Conformance classes:
+  - `http://www.opengis.net/spec/ogcapi-common-2/1.0/conf/simple-query`
+  - `https://api.stacspec.org/v1.0.0-rc.1/collection-search`
 - Requirement class in *OGC API - Common - Part 2: Geospatial Data*: [Simple Query](https://portal.ogc.org/files/99149#rc-simple-query-section)
 
-A basic set of query parameters MUST be implemented.
-These are aligned with the corresponding parameters in STAC API - Features and OGC API - Records:
-- [`bbox`](https://docs.ogc.org/DRAFTS/20-004.html#_parameter_bbox) (intersection of the given `bbox` with any of the spatial extent provided in a STAC Collection at `extent.spatial.bbox`)
-- [`datetime`](https://docs.ogc.org/DRAFTS/20-004.html#_parameter_datetime) (intersection of the given `datetime` with any of the temporal extent provided in a STAC Collection at `extent.temporal.interval`)
-- [`limit`](https://docs.ogc.org/DRAFTS/20-004.html#_parameter_limit)
+This defines a basic set of query parameters for spatial and temporal querying, plus pagination.
+Implementations of Collection Search MUST implemented the following three parameters:
 
-### Extensions
+- [`bbox`](https://docs.ogc.org/is/20-004r1/20-004r1.html#core-query-parameters-bbox): Spatal filtering, i.e. the intersection of the given `bbox` with any of the spatial extents provided in a STAC Collection for the path `extent.spatial.bbox`.
+- [`datetime`](https://docs.ogc.org/is/20-004r1/20-004r1.html#core-query-parameters-datetime): Temporal filtering, i.e. the intersection of the given `datetime` with any of the temporal extents provided in a STAC Collection for the path `extent.temporal.interval`.
+- [`limit`](https://docs.ogc.org/is/20-004r1/20-004r1.html#core-query-parameters-limit): Limits the page size.
 
-#### Free text search
+The parameters are all aligned with the corresponding parameters in STAC API - Features and OGC API - Records.
 
-- Conformance class: `https://api.stacspec.org/v1.0.0-rc.1/collection-search#free-text`
+### Optional conformance classes
 
-A basic free-text search parameter `q` based on [OGC API - Records](https://docs.ogc.org/DRAFTS/20-004.html#_parameter_q) and the
-[STAC API - Free Text Search Extension](https://github.com/stac-api-extensions/freetext-search) can be added.
+#### Free-Text Search
+
+- Conformance classes:
+  - Basic: `https://api.stacspec.org/v1.0.0-rc.1/collection-search#free-text`
+  - Advanced: `https://api.stacspec.org/v1.0.0-rc.1/collection-search#advanced-free-text`
+- Requirement class in *OGC API - Records*: [Parameter q](https://docs.ogc.org/is/20-004r1/20-004r1.html#core-query-parameters-q)
+
+This defines a new parameter, `q` that allows the user to perform free-text queries against STAC Collection metadata.
+You have to choose to **either** implement Basic or Advanced free-text search.
+This extension recommends to implement the Basic free-text search due to its simplicity.
+
+The authoritative specification is the [STAC API - Free-Text Search Extension](https://github.com/stac-api-extensions/freetext-search)
+and this chapter is only a summary of the extension in the context of the Collection Search Extension.
+The basic (but *not* the advanced) free-text search is also aligned with [OGC API - Records](https://docs.ogc.org/is/20-004r1/20-004r1.html#core-query-parameters-q).
 
 The specific set of text fields of a Collection to which the parameter is applied is left to the discretion of the implementation, but a recommendation is to at least consider `title`, `description` and `keywords`.
 
-The search works case-insensitive and spaces have no special meaning.
-Any of the search terms must be present in the set of text fields (OR operaror).
+For basic free-text search, the search works case-insensitive and spaces have no special meaning, which means
+any of the search terms must be present in the set of text fields.
+Commas act as separator between terms and reflect an *OR* operator.
+For example, `q=EO,Earth Observation` would search for "Earth Observation" or "EO".
 
-- In HTTP `GET` requests, all search terms must be separated by a comma. For example, if you want to search for "Earth Observation" or "EO", your query parameter should be as follows: `q=EO,Earth Observation`.
-- In HTTP `POST` requests, an array of search terms must be provided, for example: `{"q": ["EO", "Earth Observation"]}`.
+#### Filter (CQL2)
 
-#### Filter (CQL)
+- Conformance classes: `https://api.stacspec.org/v1.0.0/collection-search#filter`
+- Requirement class in *OGC API - Records*: [Local Resource Catalogue, CQL Filter](https://docs.ogc.org/is/20-004r1/20-004r1.html#clause-local-resources-catalog_filtering)
 
-- Conformance classes: `https://api.stacspec.org/v1.0.0-rc.1/collection-search#filter`
-- Requirement class in *OGC API - Records*: [Local Resource Catalogue, CQL Filter](https://docs.ogc.org/DRAFTS/20-004.html#clause-local-resources-catalogue_cql2-filter)
+The Filter extension provides an expressive mechanism for searching based on Collection fields.
 
-The filter extension for CQL support can be implemented, too.
-See <https://github.com/stac-api-extensions/filter> for details.
-It works as it does for Items, except that the queryables link for Collection Search is located in the response of `GET /collections` (property `links`).
-The path/endpoint for Collection Search queryables can be freely chosen, but SHOULD NOT conflict with `GET /queryables`.
+The authoritative specification is the [STAC API - Filter Extension](https://github.com/stac-api-extensions/filter)
+and this chapter is only a summary of the extension in the context of the Collection Search Extension.
+
+In general, the extension works for Collections exactly as it works for Items, with the following notable differences:
+
+- It is implemented for `GET /collections` and returns STAC Collections accordingly
+- The link to the queryables endpoint for Collection Search is located in the response of `GET /collections` (property `links`)
+- The path/endpoint for Collection Search queryables can be freely chosen, but SHOULD NOT conflict with `GET /queryables`
 
 #### Query (STACQL)
 
-- Conformance class: `https://api.stacspec.org/v1.0.0-rc.1/collection-search#query`
+The Query extension is not available for Collection Search as it's targetet for `POST` endpoints that accept JSON.
+The Collection Search extension currently does not use the HTTP `POST` method, as such Query can't be implemented.
+Please use [Filter](#filter-cql2) instead.
 
-The query extension for STACQL support can be implemented, too. It works as it does for Items.
-See <https://github.com/stac-api-extensions/query> for details.
-
-#### Sorting
+#### Sort
 
 - Conformance classes: `https://api.stacspec.org/v1.1.0/collection-search#sort`
-- Requirement class in *OGC API - Records*: [Local Resource Catalogue, Sorting](https://docs.ogc.org/DRAFTS/20-004.html#clause-local-resources-catalogue_sorting)
+- Requirement class in *OGC API - Records*: [Local Resource Catalogue, Sorting](https://docs.ogc.org/is/20-004r1/20-004r1.html#clause-local-resources-catalog_sorting)
 
-The sort extension can be implemented, too. It works as it does for Items.
-See <https://github.com/stac-api-extensions/sort> for details.
+The Sort extension provides a simple but extensible mechanism to order search results according to certain properties.
+
+The authoritative specification is the [STAC API - Sort Extension](https://github.com/stac-api-extensions/sort)
+and this chapter is only a summary of the extension in the context of the Collection Search Extension.
+
+In general, the extension works for Collections exactly as it works for Items, with the following notable differences:
+
+- It is implemented for `GET /collections` and sorts STAC Collections accordingly
+- The link to the sortables endpoint for Collection Search is located in the response of `GET /collections` (property `links`)
+- The path/endpoint for Collection Search sortables can be freely chosen, but SHOULD NOT conflict with `GET /sortables`
+
+Additionally, Items and Collections have differences in (common) availability of properties and their location within the document.
+You can find some examples below:
+
+| Use Case              | STAC Collection | STAC Item           |
+| --------------------- | --------------- | ------------------- |
+| Sort by id            | id              | id                  |
+| Sort by title         | title           | properties.title    |
+| Temporal sorting      | extent.temporal | properties.datetime |
+| Sort by creation time | created         | properties.created  |
 
 Note that Items and Collections have differences in (common) availability of properties and their location within the document. You can find some examples below:
 
@@ -110,7 +153,14 @@ Note that Items and Collections have differences in (common) availability of pro
 
 #### Fields
 
-- Conformance class: `https://api.stacspec.org/v1.0.0-rc.1/collection-search#fields`
+- Conformance class: `https://api.stacspec.org/v1.0.0/collection-search#fields`
+- Requirement class in *OGC API - Records*: n/a
 
-The fields extension can be implemented, too. It works as it does for Items.
-See <https://github.com/stac-api-extensions/fields> for details.
+The Fields extension provides a way to explicitly include or exclude specific Collection fields in the API response,
+usually to reduce the response size.
+
+The authoritative specification is the [STAC API - Fields Extension](https://github.com/stac-api-extensions/fields)
+and this chapter is only a summary of the extension in the context of the Collection Search Extension.
+
+In general, the extension works for Collections exactly as it works for Items,
+with the only difference that the paths must fit to the structure of a Collection instead of an Item.
