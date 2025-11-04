@@ -1,7 +1,6 @@
 # STAC API - Collection Search
 
 - **Title:** Collection Search
-- **OpenAPI specification:** [openapi.yaml](openapi.yaml) (todo)
 - **Conformance Classes:**
   - <https://api.stacspec.org/v1.0.0/core> (required)
   - <https://api.stacspec.org/v1.0.0-rc.1/collection-search> (required)
@@ -24,8 +23,8 @@
 A search endpoint provides the ability to query
 STAC [Collections](https://github.com/radiantearth/stac-spec/blob/master/collection-spec/README.md)
 objects across collections.
-It retrieves a group of Collection objects that match the provided parameters and provides them as
-the `GET /collections` endpoint does.
+It retrieves a group of Collection objects that match the provided parameters and provides them through
+the `GET /collections` endpoint as well.
 
 The Collection Search endpoint by default doesn't provide any query parameters to filter and all
 additional behavior will be defined in [Extensions](#extensions). These extensions can be composed
