@@ -24,7 +24,7 @@ This extension extends the STAC API `GET /collections` endpoint to support advan
 for STAC [Collections](https://github.com/radiantearth/stac-spec/blob/master/collection-spec/README.md).
 
 The [`GET /collections` endpoint](https://api.stacspec.org/v1.0.0/collections/#tag/Collections/operation/getCollections)
-doesn't provide any query parameters by default, so a beasic set of query parameters is defined in [Basics](#basics)
+doesn't provide any query parameters by default, so a basic set of query parameters is defined in [Basics](#basics)
 for some rudimentary search functionality that is similar to the default items endpoint in STAC API.
 Additional, more advanced behavior is defined as [optional conformance classes](#optional-conformance-classes).
 These extensions can be composed by an implementer to cover only the set of functionality the implementer requires.
@@ -38,8 +38,9 @@ and selectively implements a subset of their "requirements classes".
 All functionality in *OGC API - Records - Part 1: Local Resource Catalogue* is only defined for the `GET` method (i.e. `GET /collections`).
 
 > [!NOTE]  
-> STAC may add behavior for `POST /collections` in the future, but due to a potential conflict
-> with the Transaction Extension, specific rules for content negotiation might be required.
+> STAC may add behavior for `POST /collections` or [`QUERY /collections`](https://httpwg.org/http-extensions/draft-ietf-httpbis-safe-method-w-body.html)
+> for more complex queries in the future. We'd prefer to use QUERY as POST would conflict with the Transaction Extension,
+> where specific rules for content negotiation might be required.
 
 ## Versioning
 
@@ -58,13 +59,13 @@ As such, this is also how it works for the `GET /collections` endpoint. For deta
 
 - Conformance classes:
   - `http://www.opengis.net/spec/ogcapi-common-2/1.0/conf/simple-query`
-  - `https://api.stacspec.org/v1.0.0-rc.1/collection-search`
+  - `https://api.stacspec.org/v1.0.0/collection-search`
 - Requirement class in *OGC API - Common - Part 2: Geospatial Data*: [Simple Query](https://portal.ogc.org/files/99149#rc-simple-query-section)
 
 This defines a basic set of query parameters for spatial and temporal querying, plus pagination.
 Implementations of Collection Search MUST implemented the following three parameters:
 
-- [`bbox`](https://docs.ogc.org/is/20-004r1/20-004r1.html#core-query-parameters-bbox): Spatal filtering, i.e. the intersection of the given `bbox` with any of the spatial extents provided in a STAC Collection for the path `extent.spatial.bbox`.
+- [`bbox`](https://docs.ogc.org/is/20-004r1/20-004r1.html#core-query-parameters-bbox): Spatial filtering, i.e. the intersection of the given `bbox` with any of the spatial extents provided in a STAC Collection for the path `extent.spatial.bbox`.
 - [`datetime`](https://docs.ogc.org/is/20-004r1/20-004r1.html#core-query-parameters-datetime): Temporal filtering, i.e. the intersection of the given `datetime` with any of the temporal extents provided in a STAC Collection for the path `extent.temporal.interval`.
 - [`limit`](https://docs.ogc.org/is/20-004r1/20-004r1.html#core-query-parameters-limit): Limits the page size.
 
@@ -81,7 +82,7 @@ The parameters are all aligned with the corresponding parameters in STAC API - F
 
 This defines a new parameter, `q` that allows the user to perform free-text queries against STAC Collection metadata.
 You have to choose to **either** implement Basic or Advanced free-text search.
-This extension recommends to implement the Basic free-text search due to its simplicity.
+This extension recommends implementation of the Basic free-text search due to its simplicity.
 
 The authoritative specification is the [STAC API - Free-Text Search Extension](https://github.com/stac-api-extensions/freetext-search)
 and this chapter is only a summary of the extension in the context of the Collection Search Extension.
@@ -108,11 +109,11 @@ In general, the extension works for Collections exactly as it works for Items, w
 
 - It is implemented for `GET /collections` and returns STAC Collections accordingly
 - The link to the queryables endpoint for Collection Search is located in the response of `GET /collections` (property `links`)
-- The path/endpoint for Collection Search queryables can be freely chosen, but SHOULD NOT conflict with `GET /queryables`
+- The path/endpoint for Collection Search queryables can be freely chosen, but SHOULD NOT conflict with `GET /queryables`. We propose `GET /collection-queryables`.
 
 #### Query (STACQL)
 
-The Query extension is not available for Collection Search as it's targetet for `POST` endpoints that accept JSON.
+The Query extension is not available for Collection Search as it's targeted for `POST` endpoints that accept JSON.
 The Collection Search extension currently does not use the HTTP `POST` method, as such Query can't be implemented.
 Please use [Filter](#filter-cql2) instead.
 
