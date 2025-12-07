@@ -143,15 +143,6 @@ You can find some examples below:
 | Temporal sorting      | extent.temporal | properties.datetime |
 | Sort by creation time | created         | properties.created  |
 
-Note that Items and Collections have differences in (common) availability of properties and their location within the document. You can find some examples below:
-
-| Use Case              | STAC Collection | STAC Item |
-| --------------------- | --------------- | --------- |
-| Sort by id            | id              | id |
-| Sort by title         | title           | properties.title |
-| Temporal sorting      | extent.temporal | properties.datetime |
-| Sort by creation time | created         | properties.created |
-
 #### Fields
 
 - Conformance class: `https://api.stacspec.org/v1.0.0/collection-search#fields`
