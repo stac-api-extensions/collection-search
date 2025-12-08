@@ -132,7 +132,7 @@ In general, the extension works for Collections exactly as it works for Items, w
 
 - It is implemented for `GET /collections` and sorts STAC Collections accordingly
 - The link to the sortables endpoint for Collection Search is located in the response of `GET /collections` (property `links`)
-- The path/endpoint for Collection Search sortables can be freely chosen, but SHOULD NOT conflict with `GET /sortables`
+- The path/endpoint for Collection Search sortables can be freely chosen, but SHOULD NOT conflict with `GET /sortables`. We propose `GET /collection-sortables`.
 
 Additionally, Items and Collections have differences in (common) availability of properties and their location within the document.
 You can find some examples below:
