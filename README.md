@@ -46,7 +46,8 @@ All functionality in *OGC API - Records - Part 1: Local Resource Catalogue* is o
 
 The version of this extension only defines the version of the <https://api.stacspec.org/v1.0.0/collection-search>
 conformance class. All other conformance classes define their own version numbers, e.g.
-Sort is already available in v1.1.0 and as such the conformance class is
+the [STAC API Sort Extension](https://github.com/stac-api-extensions/sort)
+is current at v1.1.0 and as such the conformance class is
 <https://api.stacspec.org/v1.1.0/collection-search#sort>.
 
 ## Pagination
@@ -90,7 +91,7 @@ The basic (but *not* the advanced) free-text search is also aligned with [OGC AP
 
 The specific set of text fields of a Collection to which the parameter is applied is left to the discretion of the implementation, but a recommendation is to at least consider `title`, `description` and `keywords`.
 
-For basic free-text search, the search works case-insensitive and spaces have no special meaning, which means
+For basic free-text search, the search is case-insensitive and spaces have no special meaning, which means
 any of the search terms must be present in the set of text fields.
 Commas act as separator between terms and reflect an *OR* operator.
 For example, `q=EO,Earth Observation` would search for "Earth Observation" or "EO".
@@ -107,7 +108,7 @@ and this chapter is only a summary of the extension in the context of the Collec
 
 In general, the extension works for Collections exactly as it works for Items, with the following notable differences:
 
-- It is implemented for `GET /collections` and returns STAC Collections accordingly
+- It is implemented only for `GET /collections` and returns STAC Collections accordingly
 - The link to the queryables endpoint for Collection Search is located in the response of `GET /collections` (property `links`)
 - The path/endpoint for Collection Search queryables can be freely chosen, but SHOULD NOT conflict with `GET /queryables`. We propose `GET /collection-queryables`.
 
