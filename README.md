@@ -91,10 +91,11 @@ The basic (but *not* the advanced) free-text search is also aligned with [OGC AP
 
 The specific set of text fields of a Collection to which the parameter is applied is left to the discretion of the implementation, but a recommendation is to at least consider `title`, `description` and `keywords`.
 
-For basic free-text search, the search is case-insensitive and spaces have no special meaning, which means
-any of the search terms must be present in the set of text fields.
+For basic free-text search, the search is case-insensitive and any of the search terms must be present in the set of text fields.
 Commas act as separator between terms and reflect an *OR* operator.
-For example, `q=EO,Earth Observation` would search for "Earth Observation" or "EO".
+A term that consists of multiple words separated by white space is a phrase,
+i.e. the words must appear in the order specified and separated only by white space.
+For example, `q=EO,Earth Observation` would search for "EO" or the phrase "Earth Observation".
 
 #### Filter (CQL2)
 
